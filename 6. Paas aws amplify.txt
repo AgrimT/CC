@@ -1,0 +1,95 @@
+1. make a repository on git my-paas-app and paste index.html code
+2. sign in into aws amplify and use root email.
+3. use code in phone to login.
+4. near search bar, click on squares then aws amplify
+5. click create new app
+6. host using git
+7. select the repository
+8. then just do next next then save and deploy
+9. See the deployment
+
+code for index.html 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Lab PaaS App</title>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #e3f2fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card{
+            background: white;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1{
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+
+        p{
+            color: #444;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .badge{
+            background: #1565c0;
+            color: white;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        #time{
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>Hello from PaaS!</h1>
+
+        <p>Student: <b>Agrim Trakru</b></p>
+
+        <p>Assignment 6 - Cloud Computing Lab</p>
+
+        <p>
+            Deployed on:
+            <span class="badge">AWS Amplify (PaaS)</span>
+        </p>
+
+        <p id="time"></p>
+    </div>
+
+    <script>
+        document.getElementById("time").innerHTML =
+            "Loaded at: " + new Date().toLocaleString();
+    </script>
+
+</body>
+</html>
+
+
+  

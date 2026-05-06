@@ -1,0 +1,66 @@
+Link to download iso image: 
+
+https://drive.google.com/drive/folders/1me_nJJh0fvdDOXX3ew2jzGQpoP7f_iFt
+
+
+PART 1 — Create NAT Network "CloudLab"
+
+Open VirtualBox → click File → Preferences
+Go to Network tab → click the + icon on the right to add a new NAT Network
+Double-click the newly created network to edit it:
+
+Name: CloudLab
+Network CIDR: 10.0.2.0/24
+Check ✔ Enable DHCP
+
+
+Click OK → Click OK again to close Preferences
+
+
+PART 2 — Setup VM1
+
+Click New → Name: Ubuntu-Server-1 → Type: Linux → Version: Ubuntu (64-bit) → Next
+RAM: 1024 MB → Next
+Select "Use an existing virtual hard disk file" → click the folder icon → click Add → navigate to your Desktop → select ubuntu-18.04-amd64-disk001.vmdk → click Open → click Choose → click Create
+Now go to Settings → Network → Adapter 1:
+
+Attached to: NAT Network
+Name: CloudLab
+Click OK
+
+
+Click Start — VM1 will boot directly into Ubuntu (already installed)
+Login: username vagrant → password vagrant
+
+
+PART 3 — Setup VM2
+
+First, copy the VMDK file on your Desktop — right-click ubuntu-18.04-amd64-disk001.vmdk → Copy → Paste → rename it to ubuntu-18.04-amd64-disk002.vmdk
+Click New → Name: Ubuntu-Server-2 → Type: Linux → Version: Ubuntu (64-bit) → Next
+RAM: 1024 MB → Next
+Select "Use an existing virtual hard disk file" → click the folder icon → click Add → select ubuntu-18.04-amd64-disk002.vmdk → click Open → click Choose → click Create
+Go to Settings → Network → Adapter 1:
+
+Attached to: NAT Network
+Name: CloudLab
+Click OK
+
+
+Click Start → Login: vagrant / vagrant
+
+
+PART 4 — Do the SCP Transfer
+On VM2 — get its IP address:
+ip addr show enp0s3
+# Note the IP, e.g. 10.0.2.5
+On VM1 — create the file:
+echo "Hello from VM1 - Cloud Computing Lab - Agrim Trakru" > testfile.txt
+cat testfile.txt
+On VM1 — send the file to VM2:
+scp testfile.txt vagrant@10.0.2.5:/home/vagrant/
+# Type: yes (fingerprint prompt)
+# Password: vagrant
+On VM2 — verify:
+ls /home/vagrant/
+cat /home/vagrant/testfile.txt
+# Should print: Hello from VM1 - Cloud Computing Lab - Agrim Trakru

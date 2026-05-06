@@ -1,0 +1,85 @@
+1. make index.html file and paste code 
+2. make repo on github, upload index.html there
+3. login to vercel with github
+4. add new project on vercel
+5. select the github repo
+6. click deploy
+7. hello world will be deployed
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World App</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: white;
+            color: #2a5298;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Hello World From Agrim Trakroo</h1>
+
+        <p>My First Web Application Hosted on Vercel</p>
+
+        <button onclick="showMessage()">
+            Click Me
+        </button>
+    </div>
+
+    <script>
+        function showMessage() {
+            alert("Welcome to my Hello World App!");
+        }
+    </script>
+
+</body>
+
+</html>
+

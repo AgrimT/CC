@@ -1,0 +1,160 @@
+STEP 1: Create Salesforce Developer Account
+
+1. Open browser → go to developer.salesforce.com/signup
+2. Fill the form:
+   - First Name, Last Name
+   - Email (put college email)
+   - Role → select **Developer**
+   - Company → write your college name
+   - Country → India
+   - Username → must be email format (e.g., yourname@college.dev)
+3. Click **Sign Me Up**
+4. Go to your email inbox → open Salesforce email → click **Verify Account**
+5. Set a new password → click **Change Password**
+6. You are now logged into your **Salesforce Developer Org**
+
+
+
+STEP 2: Go to Setup
+
+1. After login, you will see the Salesforce home screen
+2. Look at the **top right corner** → click the **Gear icon ⚙️**
+3. From dropdown → click **Setup**
+4. Setup page will open — this is where you do everything
+
+
+
+STEP 3: Create a Lightning App
+
+1. In Setup, look at the **left side search bar** → type **App Manager**
+2. Click **App Manager** from results
+3. On the top right → click **New Lightning App** button
+4. Fill in:
+   - App Name: `Library Management System`
+   - Developer Name: auto fills
+   - Description: Library app for students and books
+5. Click **Next**
+6. On Console Navigation screen → click **Next**
+7. On Utility Items screen → click **Next**
+8. On Navigation Items → skip for now → click **Next**
+9. On User Profiles → select **System Administrator**
+10. Click **Save & Finish**
+
+
+
+STEP 4: Create Custom Object — "Book"
+
+1. In Setup search bar → type **Object Manager** → click it
+2. Click **Create** (top right dropdown) → select **Custom Object**
+3. Fill in the details:
+   - Label: `Book`
+   - Plural Label: `Books`
+   - Object Name: auto fills as `Book`
+   - Record Name: `Book Name`
+   - Data Type: **Text**
+4. Scroll down → check the box **Launch New Custom Tab Wizard after saving**
+5. Click **Save**
+6. Tab Wizard opens:
+   - Click the **Tab Style** box → pick any icon (e.g., book icon)
+   - Click **Next**
+   - Click **Next** again
+   - Click **Save**
+
+
+
+STEP 5: Create Custom Object — "Student"
+
+1. Go back to **Object Manager** → click **Create → Custom Object**
+2. Fill in:
+   - Label: `Student_A`
+   - Plural Label: `Students_A`
+   - Record Name: `Student_A Name`
+   - Data Type: **Text**
+3. Scroll down → check **Launch New Custom Tab Wizard after saving**
+4. Click **Save**
+5. Tab Wizard:
+   - Choose a tab style icon
+   - Click **Next → Next → Save**
+
+
+STEP 6: Add Fields to Book Object
+
+1. Go to **Object Manager** → click **Book** from the list
+2. On the left side menu → click **Fields & Relationships**
+3. Click **New** button
+4. **Field 1 — Author:**
+   - Select **Text** → click Next
+   - Field Label: `Author`
+   - Length: 100
+   - Click Next → Next → Save
+5. **Field 2 — ISBN:**
+   - Click **New** again
+   - Select **Number** → click Next
+   - Field Label: `ISBN`
+   - Click Next → Next → Save
+
+
+STEP 7: Add Fields to Student Object
+
+1. Go to **Object Manager** → click **Student_A**
+2. Click **Fields & Relationships → New**
+3. **Field 1 — Roll Number:**
+   - Select **Number** → Next
+   - Label: `Roll Number`
+   - Next → Next → Save
+4. **Field 2 — Email:**
+   - Click **New** → Select **Email** → Next
+   - Label: `Email`
+   - Next → Next → Save
+
+
+STEP 8: Add Objects to Your App
+
+1. In Setup → search **App Manager** → click it
+2. Find **Library Management System** in the list
+3. On the right side → click the **dropdown arrow ▼** → click **Edit**
+4. On the left menu → click **Navigation Items**
+5. In the search box under Available Items → search **Books** → click it → click the arrow to move it to Selected
+6. Search **Students_A** → move it to Selected too
+7. Also add **Dashboards** if you want
+8. Click **Save**
+
+
+ STEP 9: Open Your App
+
+1. Click the **9-dot grid icon** (top left, called App Launcher)
+2. In the search box → type `Library Management System`
+3. Click on it → your app opens
+4. You will see the top navigation bar with:
+   - **Students_A | Books | Contacts | Dashboards | Entitlements**
+
+
+STEP 10: Add Book Records
+
+1. Click the **Books** tab in your app
+2. Click **New** button (top right)
+3. Enter Book Name: `CC` → click **Save**
+4. Click **New** again
+5. Enter Book Name: `CG` → click **Save**
+6. You will now see 2 books listed: **CC** and **CG** 
+
+
+STEP 11: Add Student Records
+
+1. Click the **Students_A** tab
+2. Click **New**
+3. Enter Student Name: `Rishi` → click **Save**
+4. Click **New** → Enter: `Aarush` → Save
+5. Click **New** → Enter: `Agrim` → Save
+6. You will now see 3 students listed 
+
+
+ STEP 12: Create a Dashboard (Bonus)
+
+1. Click **Dashboards** tab
+2. Click **New Dashboard**
+3. Name: `Library Dashboard`
+4. Click **Create**
+5. Click **+ Component**
+6. Choose a report if available, or skip
+7. Click **Save**

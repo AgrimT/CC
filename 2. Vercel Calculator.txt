@@ -1,0 +1,161 @@
+1. make index.html file and paste code 
+2. make repo on github, upload index.html there
+3. login to vercel with github
+4. add new project on vercel
+5. select the github repo
+6. click deploy
+7. calc will be deployed
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Calculator</title>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator{
+            background: #111827;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 320px;
+            border: 2px solid #3b82f6;
+        }
+
+        .calculator h1{
+            text-align: center;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+
+        #display{
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            background: #1f2937;
+            color: white;
+            font-size: 28px;
+            text-align: right;
+            padding-right: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .buttons{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button{
+            height: 60px;
+            border: none;
+            border-radius: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover{
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .number{
+            background: #374151;
+            color: white;
+        }
+
+        .operator{
+            background: #2563eb;
+            color: white;
+        }
+
+        .equal{
+            background: #16a34a;
+            color: white;
+        }
+
+        .clear{
+            background: #dc2626;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+
+        <h1>CALCULATOR BY AGRIM </h1>
+
+        <input type="text" id="display" readonly>
+
+        <div class="buttons">
+
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendValue('/')">÷</button>
+            <button class="operator" onclick="appendValue('*')">×</button>
+            <button class="operator" onclick="appendValue('-')">−</button>
+
+            <button class="number" onclick="appendValue('7')">7</button>
+            <button class="number" onclick="appendValue('8')">8</button>
+            <button class="number" onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+
+            <button class="number" onclick="appendValue('4')">4</button>
+            <button class="number" onclick="appendValue('5')">5</button>
+            <button class="number" onclick="appendValue('6')">6</button>
+            <button class="equal" onclick="calculate()">=</button>
+
+            <button class="number" onclick="appendValue('1')">1</button>
+            <button class="number" onclick="appendValue('2')">2</button>
+            <button class="number" onclick="appendValue('3')">3</button>
+            <button class="number" onclick="appendValue('.')">.</button>
+
+            <button class="number" onclick="appendValue('0')" style="grid-column: span 4;">
+                0
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function appendValue(value){
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay(){
+            document.getElementById("display").value = "";
+        }
+
+        function calculate(){
+            try{
+                document.getElementById("display").value =
+                eval(document.getElementById("display").value);
+            }
+            catch{
+                alert("Invalid Expression");
+            }
+        }
+
+    </script>
+
+</body>
+</html>

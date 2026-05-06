@@ -1,0 +1,106 @@
+1. create a folder on pc, paste index.html 
+2. open it in vscode
+3. log in to firebase
+4. create new firebase project
+5. go to authentication, enable email
+6. go to database, firestore, create database, test mode, mumbai
+7. then go back, create web page, copy the configuration block only and paste in the place of the code
+8. open database and run the html file
+9. enter data, check database for proper storage
+
+
+
+index.html:
+<!DOCTYPE html>
+<html>
+
+<body style="
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial;
+">
+
+<div style="
+width:350px;
+padding:30px;
+border:2px solid black;
+text-align:center;
+">
+
+<h1>Login</h1>
+
+<input id="email" placeholder="Email"
+style="
+width:90%;
+padding:12px;
+margin:10px;
+font-size:18px;
+">
+
+<br>
+
+<input id="pass" placeholder="Password"
+style="
+width:90%;
+padding:12px;
+margin:10px;
+font-size:18px;
+">
+
+<br>
+
+<button onclick="save()"
+style="
+padding:12px 30px;
+font-size:18px;
+margin-top:10px;
+">
+Submit
+</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDzfUXNH8MN_rox-sqzA6TWlDovOxtACrs",
+  authDomain: "login-app-20a83.firebaseapp.com",
+  projectId: "login-app-20a83",
+  storageBucket: "login-app-20a83.firebasestorage.app",
+  messagingSenderId: "521173141257",
+  appId: "1:521173141257:web:52477b287fe1a67aa3f5d8",
+  measurementId: "G-803XBMMWR2"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.save = async () => {
+
+await addDoc(collection(db,"users"),{
+
+email: document.getElementById("email").value,
+
+password: document.getElementById("pass").value
+
+});
+
+alert("Saved");
+
+}
+
+</script>
+
+</body>
+</html>

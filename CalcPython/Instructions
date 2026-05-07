@@ -1,0 +1,48 @@
+Create Project Folder
+
+Create folder:
+
+simple-python-calc
+
+3. Create File Structure
+
+Inside project create:
+
+simple-python-calc
+│
+├── api
+│   └── index.py
+│
+└── vercel.json
+4. Add Python Calculator Code
+In:
+api/index.py
+
+5. Add Vercel Configuration
+In:
+vercel.json
+
+6. Create GitHub Repository
+
+On GitHub:
+
+Create new repository
+Repository name:
+simple-python-calc
+Upload:
+api folder
+vercel.json
+
+7. Deploy on Vercel
+
+On Vercel:
+
+Click:
+Add New
+Project
+Import GitHub repository
+
+Select:
+
+simple-python-calc
+Click Deploy

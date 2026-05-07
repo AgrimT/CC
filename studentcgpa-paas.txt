@@ -1,0 +1,182 @@
+STEPS FOR VERCEL:
+1. make index.html file and paste code 
+2. make repo on github, upload index.html there
+3. login to vercel with github
+4. add new project on vercel
+5. select the github repo
+6. click deploy
+
+
+STEPS FOR AWS AMPLIFY:
+1. make a repository on git my-paas-app and paste index.html code
+2. sign in into aws amplify and use root email.
+3. use code in phone to login.
+4. near search bar, click on squares then aws amplify
+5. click create new app
+6. host using git
+7. select the repository
+8. then just do next next then save and deploy
+9. See the deployment
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CGPA Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f0f; --surface: #1a1a1a; --border: #2e2e2e;
+      --accent: #c8f55a; --accent-dim: #8aaa30;
+      --text: #f0f0f0; --muted: #888; --danger: #ff5f57;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; min-height: 100vh; padding: 40px 20px; }
+    header { text-align: center; margin-bottom: 48px; }
+    header h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--accent); }
+    header p { color: var(--muted); font-size: 0.85rem; margin-top: 8px; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .card-title { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 20px; }
+    .semester-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .semester-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--accent); }
+    .course-row { display: grid; grid-template-columns: 1fr 120px 100px 40px; gap: 10px; margin-bottom: 10px; align-items: center; }
+    .course-row.header-row span { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    input, select { background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 9px 12px; font-family: 'DM Mono', monospace; font-size: 0.85rem; width: 100%; transition: border-color 0.2s; }
+    input:focus, select:focus { outline: none; border-color: var(--accent); }
+    input::placeholder { color: var(--muted); }
+    select option { background: var(--surface); }
+    .btn { border: none; border-radius: 6px; padding: 10px 18px; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-accent { background: var(--accent); color: #0f0f0f; }
+    .btn-accent:hover { background: var(--accent-dim); }
+    .btn-danger { background: transparent; color: var(--danger); font-size: 1rem; padding: 4px 8px; border-radius: 4px; cursor: pointer; border: none; }
+    .btn-sm { padding: 7px 14px; font-size: 0.75rem; }
+    .actions { display: flex; gap: 10px; margin-top: 16px; }
+    .results { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .result-box { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+    .result-box .label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px; }
+    .result-box .value { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .result-box .sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .sgpa-row { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 12px; font-size: 0.8rem; color: var(--muted); }
+    .sgpa-val { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--accent); }
+    @media (max-width: 540px) {
+      .course-row { grid-template-columns: 1fr 90px 70px 30px; }
+      .results { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>CGPA Calculator</h1>
+  <p>Track your grades across all semesters</p>
+</header>
+<div class="container">
+  <div id="semesters-container"></div>
+  <div style="text-align:center; margin-bottom:24px;">
+    <button class="btn btn-ghost" onclick="addSemester()">+ Add Semester</button>
+  </div>
+  <div class="card" id="results-card" style="display:none;">
+    <div class="card-title">Cumulative Results</div>
+    <div class="results" id="results-container"></div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:8px;">
+    <button class="btn btn-accent" onclick="calculate()">Calculate CGPA</button>
+  </div>
+</div>
+<script>
+  const gradePoints = {
+    'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,
+    'C+':2.3,'C':2.0,'C-':1.7,'D+':1.3,'D':1.0,'F':0.0
+  };
+  let semCount = 0;
+  let semesters = [];
+
+  function addSemester() {
+    semCount++;
+    semesters.push({ id: semCount, courses: [{},{},{}] });
+    render();
+  }
+
+  function removeSemester(id) {
+    semesters = semesters.filter(s => s.id !== id);
+    render();
+  }
+
+  function addCourse(id) {
+    semesters.find(s => s.id === id).courses.push({});
+    render();
+  }
+
+  function removeCourse(id, idx) {
+    const s = semesters.find(s => s.id === id);
+    if (s.courses.length > 1) { s.courses.splice(idx, 1); render(); }
+  }
+
+  function updateCourse(id, idx, field, val) {
+    semesters.find(s => s.id === id).courses[idx][field] = val;
+  }
+
+  function render() {
+    const c = document.getElementById('semesters-container');
+    c.innerHTML = '';
+    semesters.forEach((sem, si) => {
+      const d = document.createElement('div');
+      d.className = 'card';
+      d.innerHTML = `
+        <div class="semester-header">
+          <span class="semester-title">Semester ${si + 1}</span>
+          <button class="btn btn-ghost btn-sm" onclick="removeSemester(${sem.id})">Remove</button>
+        </div>
+        <div class="course-row header-row">
+          <span>Course Name</span><span>Grade</span><span>Credits</span><span></span>
+        </div>
+        ${sem.courses.map((c, ci) => `
+          <div class="course-row">
+            <input type="text" placeholder="Course name" value="${c.name||''}" onchange="updateCourse(${sem.id},${ci},'name',this.value)"/>
+            <select onchange="updateCourse(${sem.id},${ci},'grade',this.value)">
+              <option value="">Grade</option>
+              ${Object.keys(gradePoints).map(g=>`<option value="${g}" ${c.grade===g?'selected':''}>${g}</option>`).join('')}
+            </select>
+            <input type="number" min="1" max="6" placeholder="Credits" value="${c.credits||''}" onchange="updateCourse(${sem.id},${ci},'credits',this.value)"/>
+            <button class="btn-danger" onclick="removeCourse(${sem.id},${ci})">×</button>
+          </div>`).join('')}
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" onclick="addCourse(${sem.id})">+ Add Course</button>
+        </div>
+        <div class="sgpa-row" id="sgpa-${sem.id}"></div>`;
+      c.appendChild(d);
+    });
+  }
+
+  function calculate() {
+    let totalPts = 0, totalCr = 0;
+    semesters.forEach(sem => {
+      let pts = 0, cr = 0;
+      sem.courses.forEach(c => {
+        if (!c.grade || !c.credits) return;
+        pts += gradePoints[c.grade] * parseFloat(c.credits);
+        cr += parseFloat(c.credits);
+      });
+      totalPts += pts; totalCr += cr;
+      const el = document.getElementById(`sgpa-${sem.id}`);
+      if (el) el.innerHTML = `Semester GPA: <span class="sgpa-val">${cr > 0 ? (pts/cr).toFixed(2) : '—'}</span>`;
+    });
+    const cgpa = totalCr > 0 ? (totalPts / totalCr).toFixed(2) : 0;
+    const cls = cgpa >= 3.7 ? 'First Class Distinction' : cgpa >= 3.0 ? 'First Class' :
+                cgpa >= 2.5 ? 'Second Class Upper' : cgpa >= 2.0 ? 'Second Class Lower' : 'Pass';
+    document.getElementById('results-card').style.display = 'block';
+    document.getElementById('results-container').innerHTML = `
+      <div class="result-box"><span class="label">CGPA</span><div class="value">${cgpa}</div><div class="sub">out of 4.00</div></div>
+      <div class="result-box"><span class="label">Total Credits</span><div class="value">${totalCr}</div><div class="sub">credit hours</div></div>
+      <div class="result-box"><span class="label">Classification</span><div class="value" style="font-size:1rem;margin-top:6px;">${cls}</div></div>`;
+    document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  addSemester();
+</script>
+</body>
+</html>

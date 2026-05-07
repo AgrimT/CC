@@ -1,0 +1,225 @@
+STEPS FOR VERCEL:
+1. make index.html file and paste code 
+2. make repo on github, upload index.html there
+3. login to vercel with github
+4. add new project on vercel
+5. select the github repo
+6. click deploy
+
+
+STEPS FOR AWS AMPLIFY:
+1. make a repository on git my-paas-app and paste index.html code
+2. sign in into aws amplify and use root email.
+3. use code in phone to login.
+4. near search bar, click on squares then aws amplify
+5. click create new app
+6. host using git
+7. select the repository
+8. then just do next next then save and deploy
+9. See the deployment
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Currency Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f8f7f4;--surface:#fff;--border:#e8e4de;--accent:#1a1a2e;--gold:#c9a84c;--muted:#999;--text:#1a1a1a}
+    body{background:var(--bg);font-family:'Space Grotesk',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px 36px;width:100%;max-width:520px;box-shadow:0 8px 40px rgba(0,0,0,0.07)}
+    h1{font-size:1.7rem;font-weight:700;color:var(--accent);margin-bottom:4px}
+    .subtitle{font-size:0.8rem;color:var(--muted);margin-bottom:28px}
+    .field-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:7px;display:block}
+    .input-group{margin-bottom:14px}
+    .input-group input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:14px 18px;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;color:var(--text);background:var(--bg);transition:border-color 0.2s}
+    .input-group input:focus{outline:none;border-color:var(--accent)}
+    .input-group select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 18px;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;font-weight:500;color:var(--text);background:var(--bg);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;transition:border-color 0.2s}
+    .input-group select:focus{outline:none;border-color:var(--accent)}
+    .swap-btn{display:block;margin:4px auto;background:var(--accent);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.1rem;cursor:pointer;transition:transform 0.35s,background 0.2s}
+    .swap-btn:hover{background:var(--gold);transform:rotate(180deg)}
+    .convert-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:15px;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:18px;transition:opacity 0.2s}
+    .convert-btn:hover{opacity:0.85}
+    .result-box{margin-top:22px;padding:24px;background:var(--accent);border-radius:14px;text-align:center;display:none}
+    .result-box .from-val{font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:6px}
+    .result-box .converted{font-size:2.2rem;font-weight:700;color:#fff}
+    .result-box .rate-info{font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px}
+    .popular-rates{margin-top:26px}
+    .sec-title{font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px}
+    .rates-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .rate-chip{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+    .rate-chip .pair{font-weight:600;color:var(--accent);font-size:0.85rem}
+    .rate-chip .val{color:var(--muted);font-size:0.8rem}
+    .updated-note{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:18px}
+    .error{color:#e74c3c;font-size:0.82rem;margin-top:8px;text-align:center}
+    .history{margin-top:22px}
+    .history-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--muted)}
+    .history-item span:last-child{color:var(--accent);font-weight:600}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>Currency Converter</h1>
+  <p class="subtitle">Static rates — updated manually. Last updated: May 2025</p>
+
+  <span class="field-label">Amount</span>
+  <div class="input-group">
+    <input type="number" id="amount" placeholder="Enter amount" value="1" min="0" step="any"/>
+  </div>
+
+  <span class="field-label">From</span>
+  <div class="input-group"><select id="from-cur"></select></div>
+
+  <button class="swap-btn" onclick="swapCur()" title="Swap currencies">⇅</button>
+
+  <span class="field-label">To</span>
+  <div class="input-group"><select id="to-cur"></select></div>
+
+  <button class="convert-btn" onclick="convert()">Convert</button>
+  <div class="error" id="err"></div>
+
+  <div class="result-box" id="result-box">
+    <div class="from-val" id="r-from"></div>
+    <div class="converted" id="r-result"></div>
+    <div class="rate-info" id="r-rate"></div>
+  </div>
+
+  <div class="history" id="history" style="display:none">
+    <div class="sec-title" style="margin-top:4px">Recent Conversions</div>
+    <div id="history-list"></div>
+  </div>
+
+  <div class="popular-rates">
+    <div class="sec-title">Common Rates (Base: USD)</div>
+    <div class="rates-grid" id="rates-grid"></div>
+  </div>
+
+  <div class="updated-note">Rates are hardcoded. Update the <code>RATES</code> object in the script to refresh them.</div>
+</div>
+
+<script>
+  // All rates relative to USD. Update these values as needed.
+  const RATES = {
+    USD: 1,
+    EUR: 0.92,
+    GBP: 0.79,
+    NGN: 1590,
+    JPY: 155.4,
+    CAD: 1.37,
+    AUD: 1.55,
+    CHF: 0.90,
+    CNY: 7.26,
+    INR: 83.5,
+    BRL: 5.12,
+    MXN: 17.2,
+    SGD: 1.35,
+    HKD: 7.83,
+    ZAR: 18.7,
+    GHS: 15.6,
+    KES: 129.5,
+    EGP: 30.9,
+    SAR: 3.75,
+    AED: 3.67,
+    NOK: 10.85,
+    SEK: 10.52,
+    TRY: 32.5,
+    PKR: 278.5,
+    BDT: 110.2,
+  };
+
+  const NAMES = {
+    USD:'US Dollar',EUR:'Euro',GBP:'British Pound',NGN:'Nigerian Naira',
+    JPY:'Japanese Yen',CAD:'Canadian Dollar',AUD:'Australian Dollar',
+    CHF:'Swiss Franc',CNY:'Chinese Yuan',INR:'Indian Rupee',
+    BRL:'Brazilian Real',MXN:'Mexican Peso',SGD:'Singapore Dollar',
+    HKD:'Hong Kong Dollar',ZAR:'South African Rand',GHS:'Ghanaian Cedi',
+    KES:'Kenyan Shilling',EGP:'Egyptian Pound',SAR:'Saudi Riyal',
+    AED:'UAE Dirham',NOK:'Norwegian Krone',SEK:'Swedish Krona',
+    TRY:'Turkish Lira',PKR:'Pakistani Rupee',BDT:'Bangladeshi Taka'
+  };
+
+  const POPULAR = [
+    {pair:'EUR / USD', from:'EUR', to:'USD'},
+    {pair:'GBP / USD', from:'GBP', to:'USD'},
+    {pair:'USD / NGN', from:'USD', to:'NGN'},
+    {pair:'USD / JPY', from:'USD', to:'JPY'},
+    {pair:'USD / INR', from:'USD', to:'INR'},
+    {pair:'USD / GHS', from:'USD', to:'GHS'},
+  ];
+
+  let convHistory = [];
+
+  // Populate selects
+  const fromSel = document.getElementById('from-cur');
+  const toSel = document.getElementById('to-cur');
+  Object.keys(RATES).forEach(c => {
+    [fromSel, toSel].forEach(sel => {
+      const o = document.createElement('option');
+      o.value = c;
+      o.textContent = `${c} — ${NAMES[c] || c}`;
+      sel.appendChild(o);
+    });
+  });
+  fromSel.value = 'USD';
+  toSel.value = 'NGN';
+
+  // Popular rates display
+  document.getElementById('rates-grid').innerHTML = POPULAR.map(p => {
+    const rate = (RATES[p.to] / RATES[p.from]).toFixed(4);
+    return `<div class="rate-chip">
+      <span class="pair">${p.pair}</span>
+      <span class="val">${rate}</span>
+    </div>`;
+  }).join('');
+
+  function convert() {
+    document.getElementById('err').textContent = '';
+    const amount = parseFloat(document.getElementById('amount').value);
+    const from = fromSel.value;
+    const to = toSel.value;
+
+    if (isNaN(amount) || amount <= 0) {
+      document.getElementById('err').textContent = 'Please enter a valid positive amount.';
+      return;
+    }
+
+    const inUSD = amount / RATES[from];
+    const result = inUSD * RATES[to];
+    const rate = RATES[to] / RATES[from];
+
+    const resultStr = result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+
+    document.getElementById('result-box').style.display = 'block';
+    document.getElementById('r-from').textContent = `${amount.toLocaleString()} ${from} (${NAMES[from]})`;
+    document.getElementById('r-result').textContent = `${resultStr} ${to}`;
+    document.getElementById('r-rate').textContent = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+
+    // History
+    convHistory.unshift({ from, to, amount, result: resultStr });
+    if (convHistory.length > 5) convHistory.pop();
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const histEl = document.getElementById('history');
+    const list = document.getElementById('history-list');
+    histEl.style.display = 'block';
+    list.innerHTML = convHistory.map(h =>
+      `<div class="history-item">
+        <span>${h.amount.toLocaleString()} ${h.from} → ${h.to}</span>
+        <span>${h.result} ${h.to}</span>
+      </div>`
+    ).join('');
+  }
+
+  function swapCur() {
+    const tmp = fromSel.value;
+    fromSel.value = toSel.value;
+    toSel.value = tmp;
+  }
+</script>
+</body>
+</html>

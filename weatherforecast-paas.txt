@@ -1,0 +1,156 @@
+STEPS FOR VERCEL:
+1. make index.html file and paste code 
+2. make repo on github, upload index.html there
+3. login to vercel with github
+4. add new project on vercel
+5. select the github repo
+6. click deploy
+
+
+STEPS FOR AWS AMPLIFY:
+1. make a repository on git my-paas-app and paste index.html code
+2. sign in into aws amplify and use root email.
+3. use code in phone to login.
+4. near search bar, click on squares then aws amplify
+5. click create new app
+6. host using git
+7. select the repository
+8. then just do next next then save and deploy
+9. See the deployment
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Forecast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Source Sans 3',sans-serif;min-height:100vh;background:linear-gradient(160deg,#0f2d5e 0%,#1a6bd4 60%,#3a8ef6 100%);color:#fff;padding:40px 20px;transition:background 1s}
+    .container{max-width:780px;margin:0 auto}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;text-align:center;margin-bottom:8px}
+    .subtitle{text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;margin-bottom:32px}
+    .search-box{display:flex;gap:10px;max-width:500px;margin:0 auto 32px}
+    .search-box input{flex:1;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:10px;padding:13px 18px;font-family:'Source Sans 3',sans-serif;font-size:1rem}
+    .search-box input::placeholder{color:rgba(255,255,255,0.5)}
+    .search-box input:focus{outline:none;border-color:rgba(255,255,255,0.5)}
+    .search-box button{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:10px;padding:13px 22px;font-family:'Source Sans 3',sans-serif;font-weight:600;cursor:pointer;transition:background 0.2s}
+    .search-box button:hover{background:rgba(255,255,255,0.3)}
+    .main-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:36px;margin-bottom:20px;text-align:center}
+    .loc-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.6);margin-bottom:6px}
+    .city-name{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700}
+    .weather-icon{font-size:5rem;margin:20px 0;display:block}
+    .temp-main{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,10vw,6rem);font-weight:900;line-height:1}
+    .weather-desc{font-size:1.1rem;color:rgba(255,255,255,0.7);margin-top:8px;margin-bottom:24px}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+    .stat{background:rgba(255,255,255,0.1);border-radius:12px;padding:16px}
+    .stat .lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.6);display:block;margin-bottom:6px}
+    .stat .val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700}
+    .forecast-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:20px}
+    .fc-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 6px;text-align:center}
+    .fc-card .day{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.6);margin-bottom:8px}
+    .fc-card .icon{font-size:1.6rem;display:block;margin-bottom:6px}
+    .fc-card .hi{font-weight:600;font-size:0.95rem}
+    .fc-card .lo{color:rgba(255,255,255,0.6);font-size:0.8rem}
+    .note{text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:16px;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px}
+    .msg{text-align:center;padding:40px;color:rgba(255,255,255,0.6)}
+    @media(max-width:600px){.forecast-row{grid-template-columns:repeat(4,1fr)}.stats-row{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Weather Forecast</h1>
+  <p class="subtitle">Simulated weather — no API required. Enter any city name.</p>
+  <div class="search-box">
+    <input id="city-input" type="text" placeholder="Enter city name..." onkeydown="if(event.key==='Enter')go()"/>
+    <button onclick="go()">Search</button>
+  </div>
+  <div id="output"><div class="msg">Enter a city to see the forecast.</div></div>
+</div>
+<script>
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const short = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // Seeded random so same city always gives same "weather"
+  function seed(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+    return function() { h ^= h << 13; h ^= h >> 17; h ^= h << 5; return (h >>> 0) / 4294967296; };
+  }
+
+  const conditions = [
+    { label:'Sunny', icon:'☀️', bg:'linear-gradient(160deg,#0f2d5e,#1a6bd4,#60a5fa)', tempMod: 4 },
+    { label:'Partly Cloudy',icon:'⛅', bg:'linear-gradient(160deg,#1e3a5f,#2d5f8f,#5588bb)', tempMod: 0 },
+    { label:'Overcast', icon:'☁️', bg:'linear-gradient(160deg,#2d3748,#4a5568,#718096)', tempMod:-2 },
+    { label:'Light Rain', icon:'🌧️', bg:'linear-gradient(160deg,#1a2030,#2d3748,#4a5568)', tempMod:-4 },
+    { label:'Thunderstorm', icon:'⛈️', bg:'linear-gradient(160deg,#0d1117,#1a2030,#2d3748)', tempMod:-6 },
+    { label:'Foggy', icon:'🌫️', bg:'linear-gradient(160deg,#374151,#4b5563,#6b7280)', tempMod:-1 },
+    { label:'Light Snow', icon:'🌨️', bg:'linear-gradient(160deg,#1e3a5f,#2c4a7c,#3a6199)', tempMod:-10 },
+    { label:'Drizzle', icon:'🌦️', bg:'linear-gradient(160deg,#1e3040,#2d4a60,#3d6a80)', tempMod:-3 },
+    { label:'Clear Night', icon:'🌙', bg:'linear-gradient(160deg,#0a0f1e,#1a1f3e,#252a5e)', tempMod:-2 },
+    { label:'Windy', icon:'💨', bg:'linear-gradient(160deg,#0f2040,#1a3a60,#2a5a80)', tempMod:-1 },
+  ];
+
+  // Rough base temps by city name hash (simulates geography)
+  function baseTemp(rng) { return Math.round(10 + rng() * 25); }
+
+  function humidity(rng) { return Math.round(30 + rng() * 60); }
+  function wind(rng) { return Math.round(5 + rng() * 35); }
+  function vis(rng) { return Math.round(5 + rng() * 15); }
+
+  function go() {
+    const city = document.getElementById('city-input').value.trim();
+    if (!city) return;
+
+    const rng = seed(city.toLowerCase());
+    const todayIdx = new Date().getDay();
+    const base = baseTemp(rng);
+    const condIdx = Math.floor(rng() * conditions.length);
+    const cond = conditions[condIdx];
+    const temp = base + cond.tempMod;
+    const hum = humidity(rng);
+    const spd = wind(rng);
+    const vis_km = vis(rng);
+    const feelsLike= temp - Math.round(rng() * 4);
+
+    document.body.style.background = cond.bg;
+
+    // 7-day forecast
+    const fcCards = Array.from({length:7}, (_, i) => {
+      const r2 = seed(city.toLowerCase() + i);
+      const ci = Math.floor(r2() * conditions.length);
+      const fc = conditions[ci];
+      const hi = base + fc.tempMod + Math.round(r2() * 4);
+      const lo = hi - 4 - Math.round(r2() * 6);
+      const dIdx = (todayIdx + i) % 7;
+      return `<div class="fc-card">
+        <div class="day">${i===0?'Today':short[dIdx]}</div>
+        <span class="icon">${fc.icon}</span>
+        <div class="hi">${hi}°</div>
+        <div class="lo">${lo}°</div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('output').innerHTML = `
+      <div class="main-card">
+        <div class="loc-label">Current Weather</div>
+        <div class="city-name">${city.split(' ').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ')}</div>
+        <span class="weather-icon">${cond.icon}</span>
+        <div class="temp-main">${temp}°C</div>
+        <div class="weather-desc">${cond.label}</div>
+        <div class="stats-row">
+          <div class="stat"><span class="lbl">Humidity</span><div class="val">${hum}%</div></div>
+          <div class="stat"><span class="lbl">Wind</span><div class="val">${spd} km/h</div></div>
+          <div class="stat"><span class="lbl">Feels Like</span><div class="val">${feelsLike}°C</div></div>
+          <div class="stat"><span class="lbl">Visibility</span><div class="val">${vis_km} km</div></div>
+        </div>
+      </div>
+      <div class="forecast-row">${fcCards}</div>
+      <div class="note">Weather data is simulated using a deterministic algorithm. The same city always returns the same forecast pattern.</div>`;
+  }
+</script>
+</body>
+</html>

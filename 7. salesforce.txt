@@ -120,6 +120,8 @@ STEP 8: Add Objects to Your App
 8. Click **Save**
 
 
+NOW GO TO EDIT APP, USER PROFILES, AND CHECK IF SYSTEM ADMINISTRATOR IS THERE, IF NOT THEN PUT IT, THEN SAVE.
+
  STEP 9: Open Your App
 
 1. Click the **9-dot grid icon** (top left, called App Launcher)
